@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="uuyoupinapi",
-    version="0.0.1",
+    version="0.0.2",
     author="jiajiaxd",
     author_email="i@jiajiaxd.com",
     description="悠悠有品API",
