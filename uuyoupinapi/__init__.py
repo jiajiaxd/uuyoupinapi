@@ -1,5 +1,3 @@
-import time
-
 import requests
 
 
@@ -114,19 +112,13 @@ class UUAccount:
         })
         wait_deliver_list = data.json()['data']['waitDeliverList']
         data_to_return = []
-        for item in wait_deliver_list:
-            dict_to_append = dict()
-            dict_to_append['order_id'] = item['orderInfoVO']['orderNo']
-            dict_to_append['item_name'] = item['commodityInfoVO']['commodityName']
-            if return_offer_id:
-                dict_to_append['offer_id'] = self.get_steam_offer_id_by_order_id(dict_to_append['order_id'])
-            data_to_return.append(dict_to_append)
+        if wait_deliver_list is not None:
+            for item in wait_deliver_list:
+                dict_to_append = dict()
+                dict_to_append['order_id'] = item['orderInfoVO']['orderNo']
+                dict_to_append['item_name'] = item['commodityInfoVO']['commodityName']
+                if return_offer_id:
+                    dict_to_append['offer_id'] = self.get_steam_offer_id_by_order_id(dict_to_append['order_id'])
+                data_to_return.append(dict_to_append)
         return data_to_return
 
-
-if __name__ == '__main__':
-    with open('token.txt', 'r') as f:
-        token = f.read()
-    account = UUAccount(token)
-    print(account.get_user_nickname())
-    print(account.get_wait_deliver_list())
