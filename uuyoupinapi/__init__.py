@@ -100,7 +100,7 @@ class UUAccount:
 
     def get_wait_deliver_list(self, game_id=730, return_offer_id=True):
         """
-        获取待发货列表
+        获取待发货列表（出售）
         :param return_offer_id: 默认为True，是否返回steam交易报价号
         :param game_id: 游戏ID，默认为730(CSGO)
         :return: 待发货列表，格式为[{'order_id': '订单号', 'item_name': '物品名称', 'offer_id': 'steam交易报价号'}... , ...]
@@ -114,11 +114,11 @@ class UUAccount:
         data_to_return = []
         if wait_deliver_list is not None:
             for item in wait_deliver_list:
-                dict_to_append = dict()
-                dict_to_append['order_id'] = item['orderInfoVO']['orderNo']
-                dict_to_append['item_name'] = item['commodityInfoVO']['commodityName']
-                if return_offer_id:
-                    dict_to_append['offer_id'] = self.get_steam_offer_id_by_order_id(dict_to_append['order_id'])
-                data_to_return.append(dict_to_append)
+                if item['orderInfoVO']['orderType'] == 1:
+                    dict_to_append = dict()
+                    dict_to_append['order_id'] = item['orderInfoVO']['orderNo']
+                    dict_to_append['item_name'] = item['commodityInfoVO']['commodityName']
+                    if return_offer_id:
+                        dict_to_append['offer_id'] = self.get_steam_offer_id_by_order_id(dict_to_append['order_id'])
+                    data_to_return.append(dict_to_append)
         return data_to_return
-
