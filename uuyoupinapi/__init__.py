@@ -10,7 +10,8 @@ class UUAccount:
         self.session.headers.update({'authorization': 'Bearer ' + token,
                                      'content-type': 'application/json; charset=utf-8',
                                      'user-agent': 'okhttp/3.14.9',
-                                     'app-version': '5.0.3'})
+                                     'app-version': '5.0.5',
+                                     'apptype': '4'})
 
     @staticmethod
     def __random_str(length):
@@ -78,7 +79,7 @@ class UUAccount:
         """
         url = 'https://api.youpin898.com' + path
         if method == 'GET':
-            return self.session.get(url)
+            return self.session.get(url, params=data)
         elif method == 'POST':
             return self.session.post(url, json=data)
         elif method == 'PUT':
@@ -94,9 +95,9 @@ class UUAccount:
         :param order_id: 订单号
         :return: steam交易报价号
         """
-        return self.call_api('POST', '/api/youpin/bff/trade/v1/order/query/detail', data={
-            "orderNo": order_id
-        }).json()['data']['tradeOfferId']
+        return self.call_api('GET', '/api/trade/Order/OrderPagedDetail', data={
+            'orderNo': order_id
+        }).json()['Data']['SteamOfferId']
 
     def get_wait_deliver_list(self, game_id=730, return_offer_id=True):
         """
